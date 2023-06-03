@@ -1,4 +1,5 @@
 import 'antd/dist/reset.css'
+import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import './index.css'
 
 import React from 'react'
