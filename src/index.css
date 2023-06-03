@@ -12,3 +12,28 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
+body {
+  box-sizing: border-box;
+}
+
+.block-content {
+  position: relative;
+  max-width: 100%;
+  width: 1400px;
+  margin: 0 auto;
+}
+
+.mobile-display {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .mobile-display {
+    display: block;
+  }
+
+  .default-display {
+    display: none;
+  }
+}
