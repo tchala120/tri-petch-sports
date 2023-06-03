@@ -4,36 +4,49 @@ import styled from '@emotion/styled'
 
 interface BulletProps {
   title: ReactNode
+  contentColor?: string
   children: ReactNode
 }
 
-export const Bullet = ({ title, children }: BulletProps) => {
+export const Bullet = ({ title, contentColor, children }: BulletProps) => {
   return (
-    <BulletContainer>
+    <BulletContainer contentColor={contentColor}>
       {title}
 
-      {children}
+      <div className="bullet-content">{children}</div>
     </BulletContainer>
   )
 }
 
-const BulletContainer = styled.div`
+const BulletContainer = styled.div<Pick<BulletProps, 'contentColor'>>`
   display: flex;
   flex-direction: column;
   align-items: start;
   gap: 20px;
+
+  .bullet-content {
+    text-align: left;
+    font-size: 20px;
+    color: ${({ contentColor }) => contentColor};
+  }
 `
 
 interface BulletTitleProps {
   no: ReactNode
-  color?: string
+  noColor?: string
+  dashColor?: string
   children: ReactNode
 }
 
-export const BulletTitle = ({ no, color, children }: BulletTitleProps) => {
+export const BulletTitle = ({
+  no,
+  noColor,
+  dashColor,
+  children,
+}: BulletTitleProps) => {
   return (
     <BulletTitleContainer>
-      <BulletNumber no={no} color={color} />
+      <BulletNumber no={no} noColor={noColor} dashColor={dashColor} />
 
       <span className="content">{children}</span>
     </BulletTitleContainer>
@@ -57,31 +70,33 @@ const BulletTitleContainer = styled.div`
   }
 `
 
-const BulletNumber = ({
-  no,
-  color,
-}: Pick<BulletTitleProps, 'no' | 'color'>) => {
+type BulletNumberProps = Pick<BulletTitleProps, 'no' | 'dashColor' | 'noColor'>
+
+const BulletNumber = ({ no, noColor, dashColor }: BulletNumberProps) => {
   return (
-    <BulletNumberContainer badgeColor={color}>
-      {no}
+    <BulletNumberContainer dashColor={dashColor} noColor={noColor}>
+      <span className="bullet-number">{no}</span>
 
       <div className="bullet-underline" />
     </BulletNumberContainer>
   )
 }
 
-const BulletNumberContainer = styled.div<{ badgeColor?: string }>`
+const BulletNumberContainer = styled.div<Omit<BulletNumberProps, 'no'>>`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
 
-  > .bullet-underline {
+  .bullet-number {
+    color: ${({ noColor }) => noColor || '#000'};
+  }
+
+  .bullet-underline {
     width: 100%;
     height: 6px;
     border-radius: 4px;
-    background-color: ${({ badgeColor }) =>
-      badgeColor ? badgeColor : '#603EBE'};
+    background-color: ${({ dashColor }) => (dashColor ? dashColor : '#603EBE')};
   }
 `
 
